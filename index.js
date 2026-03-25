@@ -52,3 +52,9 @@ async function run() {
 }
 
 run();
+
+async function updateLeadStatus(id, status) {
+  await supabaseClient.from("leads").update({ status }).eq("id", id);
+  loadLeads(); // refresh dashboard
+}
+
