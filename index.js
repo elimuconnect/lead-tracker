@@ -9,9 +9,17 @@ const supabase = createClient(
 );
 
 const feeds = [
-  { url: "https://hnrss.org/jobs", niche: "web_dev" },
+  // Real Estate
   { url: "https://www.property24.com/articles/rss", niche: "real_estate" },
-  { url: "https://www.edweek.org/feeds/rss/news", niche: "education" }
+  { url: "https://www.homely.com.au/blog/rss", niche: "real_estate" },
+
+  // Web Development
+  { url: "https://hnrss.org/frontpage", niche: "web_dev" },
+  { url: "https://www.smashingmagazine.com/feed/", niche: "web_dev" },
+
+  // Education
+  { url: "https://www.edweek.org/feeds/rss/news", niche: "education" },
+  { url: "https://www.educationdive.com/rss/all/", niche: "education" }
 ];
 
 async function run() {
