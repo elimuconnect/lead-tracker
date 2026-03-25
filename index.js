@@ -4,7 +4,7 @@ import { createClient } from "@supabase/supabase-js";
 const parser = new Parser();
 
 const supabase = createClient(
-  "https://YOUR_PROJECT.supabase.co",
+  "https://ibyijnskioqtyvtflocr.supabase.co",
   "sb_publishable__8UDz84D_7v9GqgTRP9CiA_RA_Aj87g"
 );
 
