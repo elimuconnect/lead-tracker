@@ -3,11 +3,13 @@ import { createClient } from "@supabase/supabase-js";
 
 const parser = new Parser();
 
+// Use GitHub Actions secrets
 const supabase = createClient(
-  "https://ibyijnskioqtyvtflocr.supabase.co",
-  "sb_publishable__8UDz84D_7v9GqgTRP9CiA_RA_Aj87g"
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_KEY
 );
 
+// RSS feeds for all niches
 const feeds = [
   // Real Estate
   { url: "https://www.property24.com/articles/rss", niche: "real_estate" },
@@ -22,35 +24,65 @@ const feeds = [
   { url: "https://www.educationdive.com/rss/all/", niche: "education" }
 ];
 
+// Auto-detect niche from content (optional, fallback)
+function detectNiche(content) {
+  content = content.toLowerCase();
+  if (content.includes("plot") || content.includes("land")) return "real_estate";
+  if (content.includes("developer") || content.includes("website")) return "web_dev";
+  if (content.includes("school") || content.includes("student")) return "education";
+  return "other";
+}
+
+// Calculate a simple lead score
+function calculateScore(content) {
+  let score = 0;
+  content = content.toLowerCase();
+  if (content.includes("urgent")) score += 5;
+  if (content.includes("cheap")) score += 3;
+  if (content.includes("contact")) score += 2;
+  return score;
+}
+
 async function run() {
-  for (let feedSource of feeds) {
-    const feed = await parser.parseURL(feedSource.url);
-    for (let item of feed.items) {
-      const title = item.title || "";
-      const description = item.contentSnippet || "";
-      const link = item.link;
-      if (!link) continue;
+  console.log("Fetching RSS feeds...");
+  for (const feedSource of feeds) {
+    try {
+      const feed = await parser.parseURL(feedSource.url);
+      for (const item of feed.items) {
+        const title = item.title || "";
+        const description = item.contentSnippet || "";
+        const link = item.link;
+        if (!link) continue;
 
-      const { data: existing } = await supabase
-        .from("leads")
-        .select("id")
-        .eq("link", link);
+        // Deduplicate by link
+        const { data: existing } = await supabase
+          .from("leads")
+          .select("id")
+          .eq("link", link);
 
-      if (existing.length > 0) continue;
+        if (existing.length > 0) continue;
 
-      await supabase.from("leads").insert([
-        {
-          title,
-          description,
-          source: feed.title,
-          link
-        }
-      ]);
+        // Insert lead
+        await supabase.from("leads").insert([
+          {
+            title,
+            description,
+            niche: feedSource.niche || detectNiche(title + " " + description),
+            score: calculateScore(title + " " + description),
+            source: feed.title,
+            link,
+            status: "new"
+          }
+        ]);
+      }
+    } catch (err) {
+      console.error(`Error fetching ${feedSource.url}:`, err.message);
     }
   }
   console.log("Leads fetched and saved!");
 }
 
+// Run the script
 run();
 
 async function updateLeadStatus(id, status) {
