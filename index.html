@@ -49,12 +49,14 @@ button { margin: 5px; padding: 5px 10px; cursor: pointer; }
   function displayLeads(data) {
     const container = document.getElementById("leads");
     container.innerHTML = data.map(lead => `
-      <div class="card">
-        <h3>${lead.title}</h3>
-        <p>${lead.description}</p>
-        <small>Niche: ${lead.niche} | Score: ${lead.score} | Status: ${lead.status}</small><br>
-        <a href="${lead.link}" target="_blank">View</a>
-      </div>
+    <div class="card">
+  <h3>${lead.title}</h3>
+  <p>${lead.description}</p>
+  <small>Niche: ${lead.niche} | Score: ${lead.score} | Status: ${lead.status}</small><br>
+  <a href="${lead.link}" target="_blank">View</a><br>
+  <button onclick="updateLeadStatus('${lead.id}', 'contacted')">Contacted</button>
+  <button onclick="updateLeadStatus('${lead.id}', 'closed')">Closed</button>
+</div>
     `).join("");
   }
 
