@@ -27,9 +27,95 @@ const feeds = [
 // Auto-detect niche from content (optional, fallback)
 function detectNiche(content) {
   content = content.toLowerCase();
-  if (content.includes("plot") || content.includes("land")) return "real_estate";
-  if (content.includes("developer") || content.includes("website")) return "web_dev";
-  if (content.includes("school") || content.includes("student")) return "education";
+
+  // 🏡 REAL ESTATE (renting, buying, Airbnb, etc.)
+  if (
+    content.includes("house for sale") ||
+    content.includes("house to rent") ||
+    content.includes("apartment for rent") ||
+    content.includes("apartment for sale") ||
+    content.includes("bedsitter") ||
+    content.includes("single room") ||
+    content.includes("1 bedroom") ||
+    content.includes("2 bedroom") ||
+    content.includes("3 bedroom") ||
+    content.includes("4 bedroom") ||
+    content.includes("studio apartment") ||
+    content.includes("airbnb") ||
+    content.includes("bnb") ||
+    content.includes("short stay") ||
+    content.includes("rental house") ||
+    content.includes("property for sale") ||
+    content.includes("property to let") ||
+    content.includes("plots for sale") ||
+    content.includes("land for sale") ||
+    content.includes("looking for house") ||
+    content.includes("need a house") ||
+    content.includes("looking for apartment") ||
+    content.includes("office space for rent") ||
+    content.includes("shop for rent")
+  ) {
+    return "real_estate";
+  }
+
+  // 💻 WEB / APP DEVELOPMENT (people needing services)
+  if (
+    content.includes("need a website") ||
+    content.includes("build me a website") ||
+    content.includes("looking for a developer") ||
+    content.includes("hire a developer") ||
+    content.includes("web developer needed") ||
+    content.includes("website design") ||
+    content.includes("create website") ||
+    content.includes("build website") ||
+    content.includes("web app development") ||
+    content.includes("mobile app development") ||
+    content.includes("android app") ||
+    content.includes("ios app") ||
+    content.includes("system development") ||
+    content.includes("software developer needed") ||
+    content.includes("freelance developer") ||
+    content.includes("ecommerce website") ||
+    content.includes("online store website") ||
+    content.includes("shopify store") ||
+    content.includes("wordpress website") ||
+    content.includes("fix my website") ||
+    content.includes("website redesign") ||
+    content.includes("saas platform") ||
+    content.includes("booking system") ||
+    content.includes("school system")
+  ) {
+    return "web_dev";
+  }
+
+  // 🎓 ONLINE TUITION (clear demand for learning help)
+  if (
+    content.includes("need a tutor") ||
+    content.includes("looking for a tutor") ||
+    content.includes("online tuition") ||
+    content.includes("home tuition") ||
+    content.includes("private tutor") ||
+    content.includes("math tutor") ||
+    content.includes("english tutor") ||
+    content.includes("science tutor") ||
+    content.includes("tuition teacher") ||
+    content.includes("cbc tutor") ||
+    content.includes("kcse tutor") ||
+    content.includes("primary tutor") ||
+    content.includes("high school tutor") ||
+    content.includes("revision classes") ||
+    content.includes("coaching classes") ||
+    content.includes("online classes") ||
+    content.includes("learn from home") ||
+    content.includes("assignment help") ||
+    content.includes("exam preparation") ||
+    content.includes("holiday tuition") ||
+    content.includes("part time tutor") ||
+    content.includes("zoom classes")
+  ) {
+    return "online_tuition";
+  }
+
   return "other";
 }
 
