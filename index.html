@@ -7,6 +7,13 @@
 body { font-family: Arial, sans-serif; background: #f9f9f9; padding: 20px; }
 .card { background: #fff; padding: 10px; margin: 10px 0; border-radius: 5px; box-shadow: 0 0 5px rgba(0,0,0,0.1);}
 button { margin: 5px; padding: 5px 10px; cursor: pointer; }
+
+
+
+.status-new { color: red; font-weight: bold; }
+.status-contacted { color: green; font-weight: bold; }
+.status-closed { color: gray; font-style: italic; }
+  
 </style>
 </head>
 <body>
@@ -52,7 +59,9 @@ button { margin: 5px; padding: 5px 10px; cursor: pointer; }
     <div class="card">
   <h3>${lead.title}</h3>
   <p>${lead.description}</p>
-  <small>Niche: ${lead.niche} | Score: ${lead.score} | Status: ${lead.status}</small><br>
+<small class="status-${lead.status}">
+  Niche: ${lead.niche} | Score: ${lead.score} | Status: ${lead.status}
+</small><br>
   <a href="${lead.link}" target="_blank">View</a><br>
   <button onclick="updateLeadStatus('${lead.id}', 'contacted')">Contacted</button>
   <button onclick="updateLeadStatus('${lead.id}', 'closed')">Closed</button>
