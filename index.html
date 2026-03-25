@@ -21,36 +21,44 @@ button { margin: 5px; padding: 5px 10px; cursor: pointer; }
 
 <div id="leads"></div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-const supabase = supabase.createClient(
-  "https://ibyijnskioqtyvtflocr.supabase.co",
-  "sb_publishable__8UDz84D_7v9GqgTRP9CiA_RA_Aj87g"
-);
+  // Create Supabase client
+  const supabaseClient = supabase.createClient(
+    "https://ibyijnskioqtyvtflocr.supabase.co",
+    "sb_publishable__8UDz84D_7v9GqgTRP9CiA_RA_Aj87g"
+  );
 
-async function loadLeads() {
-  const { data } = await supabase.from("leads").select("*").order("created_at", { ascending: false });
-  displayLeads(data);
-}
+  async function loadLeads() {
+    const { data } = await supabaseClient
+      .from("leads")
+      .select("*")
+      .order("created_at", { ascending: false });
+    displayLeads(data);
+  }
 
-async function filterNiche(niche) {
-  const { data } = await supabase.from("leads").select("*").eq("niche", niche).order("created_at", { ascending: false });
-  displayLeads(data);
-}
+  async function filterNiche(niche) {
+    const { data } = await supabaseClient
+      .from("leads")
+      .select("*")
+      .eq("niche", niche)
+      .order("created_at", { ascending: false });
+    displayLeads(data);
+  }
 
-function displayLeads(data) {
-  const container = document.getElementById("leads");
-  container.innerHTML = data.map(lead => `
-    <div class="card">
-      <h3>${lead.title}</h3>
-      <p>${lead.description}</p>
-      <small>Niche: ${lead.niche} | Score: ${lead.score} | Status: ${lead.status}</small><br>
-      <a href="${lead.link}" target="_blank">View</a>
-    </div>
-  `).join("");
-}
+  function displayLeads(data) {
+    const container = document.getElementById("leads");
+    container.innerHTML = data.map(lead => `
+      <div class="card">
+        <h3>${lead.title}</h3>
+        <p>${lead.description}</p>
+        <small>Niche: ${lead.niche} | Score: ${lead.score} | Status: ${lead.status}</small><br>
+        <a href="${lead.link}" target="_blank">View</a>
+      </div>
+    `).join("");
+  }
 
-loadLeads();
+  loadLeads();
 </script>
 
 </body>
