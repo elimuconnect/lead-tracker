@@ -1,7 +1,7 @@
 {
   "name": "lead-tracker",
   "version": "1.0.0",
-  "type": "module",  // MUST be here to use 'import' syntax
+  "type": "module",
   "dependencies": {
     "rss-parser": "^3.12.0",
     "@supabase/supabase-js": "^2.0.0",
